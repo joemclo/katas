@@ -59,4 +59,8 @@ describe('Rover command parsing', () => {
             direction: 'N',
         });
     });
+
+    it('should return rover commands', () => {
+        expect(commandParser('5 5\n2 2 N\nM').roverCommands).toEqual(['M']);
+    });
 });

@@ -21,12 +21,17 @@ const rovers = (commandsString) => {
 };
 
 const commandParser = (commandString) => {
-    const [gridSizeString, roverLocationString = ''] = commandString.split('\n');
+    const [gridSizeString, roverLocationString = '', roverCommandString] = commandString.split('\n');
 
     return {
         gridSize: getCoordinates(gridSizeString),
         roverLocation: getCoordinates(roverLocationString),
+        roverCommands: getCommands(roverCommandString),
     };
+};
+
+const getCommands = (roverCommandString = '') => {
+    return roverCommandString.split(' ');
 };
 
 const getCoordinates = (coordinatesString) => {
