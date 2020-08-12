@@ -1,0 +1,49 @@
+{
+    "root": true,
+    "parserOptions": {
+        "sourceType": "module"
+    },
+    "env": {
+        "es6": true,
+        "node": true
+    },
+    "plugins": ["prettier", "import", "jest"],
+    "extends": ["eslint:recommended"],
+    "ignorePatterns": ["node_modules/"],
+    "rules": {
+        "prettier/prettier": "error",
+        "import/order": [
+            "error",
+            {
+                "groups": ["builtin", "external", "internal", "parent", "sibling", "index"],
+                "newlines-between": "always"
+            }
+        ],
+        "brace-style": ["error"],
+        "curly": ["error"],
+        "max-len": [
+            "error",
+            {
+                "code": 120,
+                "tabWidth": 4,
+                "ignoreComments": true
+            }
+        ],
+        "no-extra-bind": ["error"],
+        "space-before-blocks": ["error"],
+        "no-duplicate-imports": [
+            "error",
+            {
+                "includeExports": true
+            }
+        ],
+        "yoda": ["error"],
+        "no-only-tests/no-only-tests": [
+            "error",
+            {
+                "block": ["test", "it", "assert", "describe"],
+                "focus": ["only", "focus"]
+            }
+        ]
+    }
+}
