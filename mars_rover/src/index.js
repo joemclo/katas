@@ -24,9 +24,11 @@ const commandParser = (commandString) => {
     const [gridSizeString, roverLocationString = '', roverCommandString] = commandString.split('\n');
 
     return {
-        gridSize: getCoordinates(gridSizeString),
-        roverLocation: getCoordinates(roverLocationString),
-        roverCommands: getCommands(roverCommandString),
+        grid: getCoordinates(gridSizeString),
+        rover: {
+            location: getCoordinates(roverLocationString),
+            commands: getCommands(roverCommandString),
+        },
     };
 };
 
@@ -44,4 +46,19 @@ const getCoordinates = (coordinatesString) => {
     };
 };
 
-export { rovers, commandParser };
+const getRoverInitialState = (roversString) => {
+    const [rover1State, rover1Commands, rover2State, rover2Commands] = roversString.split('\n');
+
+    return [
+        {
+            location: getCoordinates(rover1State),
+            commands: getCommands(rover1Commands),
+        },
+        {
+            location: getCoordinates(rover2State),
+            commands: getCommands(rover2Commands),
+        },
+    ];
+};
+
+export { rovers, commandParser, getRoverInitialState };

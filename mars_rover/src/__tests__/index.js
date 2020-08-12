@@ -1,4 +1,4 @@
-import { rovers, commandParser } from '..';
+import { rovers, commandParser, getRoverInitialState } from '..';
 
 describe('Rover movements', () => {
     describe('Rover rotation', () => {
@@ -37,15 +37,15 @@ describe('Rover movements', () => {
 });
 
 describe('Rover command parsing', () => {
-    it('should return the grid size of platue', () => {
-        expect(commandParser('5 5').gridSize).toEqual({
+    it('should return the grid size of plateau', () => {
+        expect(commandParser('5 5').grid).toEqual({
             x: 5,
             y: 5,
         });
     });
 
     it('should return rovers initial location 1 1', () => {
-        expect(commandParser('5 5\n1 1 N').roverLocation).toEqual({
+        expect(commandParser('5 5\n1 1 N').rover.location).toEqual({
             x: 1,
             y: 1,
             direction: 'N',
@@ -53,7 +53,7 @@ describe('Rover command parsing', () => {
     });
 
     it('should return rovers initial location 2 2', () => {
-        expect(commandParser('5 5\n2 2 N').roverLocation).toEqual({
+        expect(commandParser('5 5\n2 2 N').rover.location).toEqual({
             x: 2,
             y: 2,
             direction: 'N',
@@ -61,6 +61,28 @@ describe('Rover command parsing', () => {
     });
 
     it('should return rover commands', () => {
-        expect(commandParser('5 5\n2 2 N\nM').roverCommands).toEqual(['M']);
+        expect(commandParser('5 5\n2 2 N\nM').rover.commands).toEqual(['M']);
+    });
+});
+describe('rover initial state', () => {
+    it('should return initial state for multiple rovers', () => {
+        expect(getRoverInitialState('1 1 N\nM\n2 2 S\nL')).toEqual([
+            {
+                location: {
+                    x: 1,
+                    y: 1,
+                    direction: 'N',
+                },
+                commands: ['M'],
+            },
+            {
+                location: {
+                    x: 2,
+                    y: 2,
+                    direction: 'S',
+                },
+                commands: ['L'],
+            },
+        ]);
     });
 });
