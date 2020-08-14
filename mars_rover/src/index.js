@@ -1,9 +1,9 @@
 const rovers = (commandsString) => {
-    const [_, initialPosition, commands] = commandsString.split('\n');
+    const { rovers } = commandParser(commandsString);
 
-    let direction = 'N';
-
-    commands.split('').forEach((command) => {
+    let direction = rovers[0].location.direction;
+    const commands = rovers[0].commands;
+    commands.forEach((command) => {
         if (command === 'L') {
             if (direction === 'N') {
                 direction = 'W';
@@ -32,7 +32,7 @@ const commandParser = (commandString) => {
 };
 
 const getCommands = (roverCommandString = '') => {
-    return roverCommandString.split(' ');
+    return roverCommandString.split('');
 };
 
 const getCoordinates = (coordinatesString) => {
