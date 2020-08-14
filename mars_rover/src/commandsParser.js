@@ -1,11 +1,13 @@
 const getInitialState = (commandString) => {
+    const grid = getGridState(commandString.split('\n')[0]);
+
     const splitMarker = commandString.indexOf('\n');
-    const gridSizeString = commandString.substring(0, splitMarker > -1 ? splitMarker : undefined);
     const roversString = commandString.substring(splitMarker + 1);
+    const rovers = getRoversInitialState(roversString);
 
     return {
-        grid: getCoordinates(gridSizeString),
-        rovers: getRoversInitialState(roversString),
+        grid,
+        rovers,
     };
 };
 
@@ -21,6 +23,10 @@ const getCoordinates = (coordinatesString) => {
         y: parseInt(y),
         direction,
     };
+};
+
+const getGridState = (gridSizeString) => {
+    return getCoordinates(gridSizeString);
 };
 
 const getRoversInitialState = (roversString) => {
