@@ -1,6 +1,6 @@
 import { getInitialState } from './commandsParser';
 
-const rovers = (commandsString) => {
+const explorePlateau = (commandsString) => {
     const { rovers } = getInitialState(commandsString);
 
     let direction = rovers[0].location.direction;
@@ -22,4 +22,4 @@ const rovers = (commandsString) => {
     return `0 0 ${direction}`;
 };
 
-export { rovers };
+export { explorePlateau };
