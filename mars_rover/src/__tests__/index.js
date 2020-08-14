@@ -1,4 +1,4 @@
-import { rovers, commandParser, getRoverInitialState } from '..';
+import { rovers, commandParser, getRoversInitialState } from '..';
 
 describe('Rover movements', () => {
     describe('Rover rotation', () => {
@@ -45,7 +45,7 @@ describe('Rover command parsing', () => {
     });
 
     it('should return rovers initial location 1 1', () => {
-        expect(commandParser('5 5\n1 1 N').rover.location).toEqual({
+        expect(commandParser('5 5\n1 1 N').rovers[0].location).toEqual({
             x: 1,
             y: 1,
             direction: 'N',
@@ -53,7 +53,7 @@ describe('Rover command parsing', () => {
     });
 
     it('should return rovers initial location 2 2', () => {
-        expect(commandParser('5 5\n2 2 N').rover.location).toEqual({
+        expect(commandParser('5 5\n2 2 N').rovers[0].location).toEqual({
             x: 2,
             y: 2,
             direction: 'N',
@@ -61,12 +61,12 @@ describe('Rover command parsing', () => {
     });
 
     it('should return rover commands', () => {
-        expect(commandParser('5 5\n2 2 N\nM').rover.commands).toEqual(['M']);
+        expect(commandParser('5 5\n2 2 N\nM').rovers[0].commands).toEqual(['M']);
     });
 });
 describe('rover initial state', () => {
     it('should return initial state for multiple rovers', () => {
-        expect(getRoverInitialState('1 1 N\nM\n2 2 S\nL')).toEqual([
+        expect(getRoversInitialState('1 1 N\nM\n2 2 S\nL')).toEqual([
             {
                 location: {
                     x: 1,

@@ -21,14 +21,13 @@ const rovers = (commandsString) => {
 };
 
 const commandParser = (commandString) => {
-    const [gridSizeString, roverLocationString = '', roverCommandString] = commandString.split('\n');
+    const splitMarker = commandString.indexOf('\n');
+    const gridSizeString = commandString.substring(0, splitMarker > -1 ? splitMarker : undefined);
+    const roversString = commandString.substring(splitMarker + 1);
 
     return {
         grid: getCoordinates(gridSizeString),
-        rover: {
-            location: getCoordinates(roverLocationString),
-            commands: getCommands(roverCommandString),
-        },
+        rovers: getRoversInitialState(roversString),
     };
 };
 
@@ -46,19 +45,22 @@ const getCoordinates = (coordinatesString) => {
     };
 };
 
-const getRoverInitialState = (roversString) => {
-    const [rover1State, rover1Commands, rover2State, rover2Commands] = roversString.split('\n');
+const getRoversInitialState = (roversString) => {
+    const roverArray = roversString.split('\n');
 
-    return [
-        {
-            location: getCoordinates(rover1State),
-            commands: getCommands(rover1Commands),
-        },
-        {
-            location: getCoordinates(rover2State),
-            commands: getCommands(rover2Commands),
-        },
-    ];
+    const parsedRovers = roverArray.reduce((acc, value, index) => {
+        if (index % 2) {
+            acc[Math.floor(index / 2)].commands = getCommands(value);
+        } else {
+            acc.push({
+                location: getCoordinates(value),
+            });
+        }
+
+        return acc;
+    }, []);
+
+    return parsedRovers;
 };
 
-export { rovers, commandParser, getRoverInitialState };
+export { rovers, commandParser, getRoversInitialState };
