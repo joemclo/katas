@@ -22,4 +22,26 @@ const explorePlateau = (commandsString) => {
     return `0 0 ${direction}`;
 };
 
-export { explorePlateau };
+const initialiseRover = ({ location, commands }) => {
+    let roverCommands = commands;
+
+    return {
+        location: { ...location },
+        move: function () {
+            roverCommands.forEach((command) => {
+                const currentDirection = this.location.direction;
+
+                if (command === 'L') {
+                    if (currentDirection === 'N') {
+                        this.location = { ...this.location, direction: 'W' };
+                    } else if (currentDirection === 'W') {
+                        this.location = { ...this.location, direction: 'S' };
+                    }
+                }
+            });
+            roverCommands = [];
+        },
+    };
+};
+
+export { explorePlateau, initialiseRover };

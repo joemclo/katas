@@ -39,7 +39,7 @@ describe('Rover command parsing', () => {
 
     describe('rover initial state', () => {
         it('should return initial state for multiple rovers', () => {
-            expect(getRoversInitialState('1 1 N\nM\n2 2 S\nL')).toEqual([
+            expect(getRoversInitialState('1 1 N\nM\n2 2 S\nLL')).toEqual([
                 {
                     location: {
                         x: 1,
@@ -54,7 +54,7 @@ describe('Rover command parsing', () => {
                         y: 2,
                         direction: 'S',
                     },
-                    commands: ['L'],
+                    commands: ['L', 'L'],
                 },
             ]);
         });
