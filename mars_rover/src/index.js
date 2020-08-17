@@ -36,6 +36,10 @@ const initialiseRover = ({ location, commands }) => {
                         this.location = { ...this.location, direction: 'W' };
                     } else if (currentDirection === 'W') {
                         this.location = { ...this.location, direction: 'S' };
+                    } else if (currentDirection === 'S') {
+                        this.location = { ...this.location, direction: 'E' };
+                    } else {
+                        this.location = { ...this.location, direction: 'N' };
                     }
                 }
             });

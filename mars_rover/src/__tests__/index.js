@@ -22,30 +22,24 @@ describe('Rover movements', () => {
 
 describe('rover movement', () => {
     describe('rover rotation', () => {
-        it('should rotate left', () => {
-            const rover = initialiseRover({
-                location: {
-                    direction: 'N',
-                },
-                commands: ['L'],
+        [
+            [['L'], 'W'],
+            [['L', 'L'], 'S'],
+            [['L', 'L', 'L'], 'E'],
+            [['L', 'L', 'L', 'L'], 'N'],
+        ].forEach(([commands, expectedDirection]) => {
+            it(`should rotate left by ${commands} to ${expectedDirection}`, () => {
+                const rover = initialiseRover({
+                    location: {
+                        direction: 'N',
+                    },
+                    commands: commands,
+                });
+
+                rover.move();
+
+                expect(rover.location.direction).toEqual(expectedDirection);
             });
-
-            rover.move();
-
-            expect(rover.location.direction).toEqual('W');
-        });
-
-        it('should rotate left twice', () => {
-            const rover = initialiseRover({
-                location: {
-                    direction: 'N',
-                },
-                commands: ['L', 'L'],
-            });
-
-            rover.move();
-
-            expect(rover.location.direction).toEqual('S');
         });
     });
 });
