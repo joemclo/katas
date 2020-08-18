@@ -41,5 +41,25 @@ describe('rover movement', () => {
                 expect(rover.location.direction).toEqual(expectedDirection);
             });
         });
+
+        [
+            [['R'], 'E'],
+            [['R', 'R'], 'S'],
+            [['R', 'R', 'R'], 'W'],
+            [['R', 'R', 'R', 'R'], 'N'],
+        ].forEach(([commands, expectedDirection]) => {
+            it(`should rotate right by ${commands} to ${expectedDirection}`, () => {
+                const rover = initialiseRover({
+                    location: {
+                        direction: 'N',
+                    },
+                    commands: commands,
+                });
+
+                rover.move();
+
+                expect(rover.location.direction).toEqual(expectedDirection);
+            });
+        });
     });
 });

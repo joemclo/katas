@@ -1,4 +1,5 @@
 import { getInitialState } from './commandsParser';
+import { rotate, rotationCommands } from './rotation';
 
 const explorePlateau = (commandsString) => {
     const { rovers } = getInitialState(commandsString);
@@ -31,16 +32,8 @@ const initialiseRover = ({ location, commands }) => {
             roverCommands.forEach((command) => {
                 const currentDirection = this.location.direction;
 
-                if (command === 'L') {
-                    if (currentDirection === 'N') {
-                        this.location = { ...this.location, direction: 'W' };
-                    } else if (currentDirection === 'W') {
-                        this.location = { ...this.location, direction: 'S' };
-                    } else if (currentDirection === 'S') {
-                        this.location = { ...this.location, direction: 'E' };
-                    } else {
-                        this.location = { ...this.location, direction: 'N' };
-                    }
+                if (rotationCommands.includes(command)) {
+                    this.location = { ...this.location, direction: rotate(currentDirection, command) };
                 }
             });
             roverCommands = [];
