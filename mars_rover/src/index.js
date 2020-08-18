@@ -4,23 +4,10 @@ import { rotate, rotationCommands } from './rotation';
 const explorePlateau = (commandsString) => {
     const { rovers } = getInitialState(commandsString);
 
-    let direction = rovers[0].location.direction;
-    const commands = rovers[0].commands;
-    commands.forEach((command) => {
-        if (command === 'L') {
-            if (direction === 'N') {
-                direction = 'W';
-            } else if (direction === 'W') {
-                direction = 'S';
-            } else if (direction === 'S') {
-                direction = 'E';
-            } else {
-                direction = 'N';
-            }
-        }
-    });
+    const rover = initialiseRover(rovers[0]);
+    rover.move();
 
-    return `0 0 ${direction}`;
+    return `0 0 ${rover.location.direction}`;
 };
 
 const initialiseRover = ({ location, commands }) => {
@@ -34,6 +21,12 @@ const initialiseRover = ({ location, commands }) => {
 
                 if (rotationCommands.includes(command)) {
                     this.location = { ...this.location, direction: rotate(currentDirection, command) };
+                } else if (command === 'M') {
+                    if (currentDirection === 'N') {
+                        this.location = { ...this.location, y: this.location.y + 1 };
+                    } else if (currentDirection === 'S') {
+                        this.location = { ...this.location, y: this.location.y - 1 };
+                    }
                 }
             });
             roverCommands = [];

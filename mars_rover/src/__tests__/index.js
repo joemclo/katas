@@ -5,18 +5,6 @@ describe('Rover movements', () => {
         it('should rotate left', () => {
             expect(explorePlateau(`5 5\n0 0 N\nL`)).toBe('0 0 W');
         });
-
-        it('should rotate left twice', () => {
-            expect(explorePlateau(`5 5\n0 0 N\nLL`)).toBe('0 0 S');
-        });
-
-        it('should rotate left three times', () => {
-            expect(explorePlateau(`5 5\n0 0 N\nLLL`)).toBe('0 0 E');
-        });
-
-        it('should rotate left four times', () => {
-            expect(explorePlateau(`5 5\n0 0 N\nLLLL`)).toBe('0 0 N');
-        });
     });
 });
 
@@ -60,6 +48,44 @@ describe('rover movement', () => {
 
                 expect(rover.location.direction).toEqual(expectedDirection);
             });
+        });
+    });
+
+    describe('rover move', () => {
+        [
+            [['M'], 0, 1],
+            [['M', 'M'], 0, 2],
+            [['M', 'M'], 3, 5],
+        ].forEach(([commands, initialLocation, expectedYLocation]) => {
+            it(`should move rover north by ${commands.length} steps from y location ${initialLocation}`, () => {
+                const rover = initialiseRover({
+                    location: {
+                        x: 0,
+                        y: initialLocation,
+                        direction: 'N',
+                    },
+                    commands,
+                });
+
+                rover.move();
+
+                expect(rover.location.y).toBe(expectedYLocation);
+            });
+        });
+
+        it('should move rover south by one step', () => {
+            const rover = initialiseRover({
+                location: {
+                    x: 0,
+                    y: 4,
+                    direction: 'S',
+                },
+                commands: ['M'],
+            });
+
+            rover.move();
+
+            expect(rover.location.y).toBe(3);
         });
     });
 });
