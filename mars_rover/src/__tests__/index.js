@@ -87,5 +87,20 @@ describe('rover movement', () => {
 
             expect(rover.location.y).toBe(3);
         });
+
+        it('should move rover east by one step', () => {
+            const rover = initialiseRover({
+                location: {
+                    x: 0,
+                    y: 0,
+                    direction: 'E',
+                },
+                commands: ['M'],
+            });
+
+            rover.move();
+
+            expect(rover.location.x).toBe(1);
+        });
     });
 });
