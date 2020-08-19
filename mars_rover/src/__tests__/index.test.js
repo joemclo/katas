@@ -8,6 +8,10 @@ describe('Rover movements', () => {
     it('should move two rovers', () => {
         expect(explorePlateau(`5 5\n0 0 N\nM\n0 0 E\nM`)).toBe('0 1 N\n1 0 E');
     });
+
+    it('should move two rovers in multiple directions', () => {
+        expect(explorePlateau(`5 5\n1 1 N\nMRM\n3 3 S\nMMRM`)).toBe('2 2 E\n2 1 W');
+    });
 });
 
 describe('rover movement', () => {
