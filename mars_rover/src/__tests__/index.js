@@ -73,34 +73,26 @@ describe('rover movement', () => {
             });
         });
 
-        it('should move rover south by one step', () => {
-            const rover = initialiseRover({
-                location: {
-                    x: 0,
-                    y: 4,
-                    direction: 'S',
-                },
-                commands: ['M'],
+        [
+            ['N', { x: 0, y: 0 }, { x: 0, y: 1 }],
+            ['E', { x: 0, y: 0 }, { x: 1, y: 0 }],
+            ['W', { x: 1, y: 0 }, { x: 0, y: 0 }],
+            ['S', { x: 0, y: 1 }, { x: 0, y: 0 }],
+        ].forEach(([direction, startingLocation, expectedLocation]) => {
+            it(`should move rover ${direction} by one step`, () => {
+                const rover = initialiseRover({
+                    location: {
+                        ...startingLocation,
+                        direction,
+                    },
+                    commands: ['M'],
+                });
+
+                rover.move();
+
+                expect(rover.location.x).toEqual(expectedLocation.x);
+                expect(rover.location.y).toEqual(expectedLocation.y);
             });
-
-            rover.move();
-
-            expect(rover.location.y).toBe(3);
-        });
-
-        it('should move rover east by one step', () => {
-            const rover = initialiseRover({
-                location: {
-                    x: 0,
-                    y: 0,
-                    direction: 'E',
-                },
-                commands: ['M'],
-            });
-
-            rover.move();
-
-            expect(rover.location.x).toBe(1);
         });
     });
 });
