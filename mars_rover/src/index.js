@@ -5,10 +5,13 @@ import { moveRover } from './movement';
 const explorePlateau = (commandsString) => {
     const { rovers } = getInitialState(commandsString);
 
-    const rover = initialiseRover(rovers[0]);
-    rover.move();
-
-    return `0 0 ${rover.location.direction}`;
+    return rovers
+        .map((roverInitialState) => {
+            const rover = initialiseRover(roverInitialState);
+            rover.move();
+            return `${rover.location.x} ${rover.location.y} ${rover.location.direction}`;
+        })
+        .join('\n');
 };
 
 const initialiseRover = ({ location, commands }) => {

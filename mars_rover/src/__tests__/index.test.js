@@ -1,10 +1,12 @@
 import { explorePlateau, initialiseRover } from '..';
 
 describe('Rover movements', () => {
-    describe('Rover rotation', () => {
-        it('should rotate left', () => {
-            expect(explorePlateau(`5 5\n0 0 N\nL`)).toBe('0 0 W');
-        });
+    it('should move one rover', () => {
+        expect(explorePlateau(`5 5\n0 0 N\nM`)).toBe('0 1 N');
+    });
+
+    it('should move two rovers', () => {
+        expect(explorePlateau(`5 5\n0 0 N\nM\n0 0 E\nM`)).toBe('0 1 N\n1 0 E');
     });
 });
 
