@@ -1,6 +1,6 @@
 import { explorePlateau, initialiseRover } from '..';
 
-describe('Rover movements', () => {
+describe('explorePlateau tests', () => {
     it('should move one rover', () => {
         expect(explorePlateau(`5 5\n0 0 N\nM`)).toBe('0 1 N');
     });
@@ -12,9 +12,15 @@ describe('Rover movements', () => {
     it('should move two rovers in multiple directions', () => {
         expect(explorePlateau(`5 5\n1 1 N\nMRM\n3 3 S\nMMRM`)).toBe('2 2 E\n2 1 W');
     });
+
+    it('should meet the example test case of rover movement', () => {
+        expect(explorePlateau(`5 5\n1 2 N\nLMLMLMLMM\n3 3 E\nMMRMMRMRRM`)).toBe(`1 3 N\n5 1 E`);
+    });
 });
 
 describe('rover movement', () => {
+    const testGrid = { x: 5, y: 5 };
+
     describe('rover rotation', () => {
         [
             [['L'], 'W'],
@@ -30,7 +36,7 @@ describe('rover movement', () => {
                     commands: commands,
                 });
 
-                rover.move();
+                rover.move(testGrid);
 
                 expect(rover.location.direction).toEqual(expectedDirection);
             });
@@ -50,7 +56,7 @@ describe('rover movement', () => {
                     commands: commands,
                 });
 
-                rover.move();
+                rover.move(testGrid);
 
                 expect(rover.location.direction).toEqual(expectedDirection);
             });
@@ -73,7 +79,7 @@ describe('rover movement', () => {
                     commands,
                 });
 
-                rover.move();
+                rover.move(testGrid);
 
                 expect(rover.location.y).toBe(expectedYLocation);
             });
@@ -94,11 +100,73 @@ describe('rover movement', () => {
                     commands: ['M'],
                 });
 
-                rover.move();
+                rover.move(testGrid);
 
                 expect(rover.location.x).toEqual(expectedLocation.x);
                 expect(rover.location.y).toEqual(expectedLocation.y);
             });
+        });
+
+        it('should stop moving when reaching the edge of the plateau on y axis', () => {
+            const rover = initialiseRover({
+                location: {
+                    x: 0,
+                    y: 0,
+                    direction: 'N',
+                },
+                commands: ['M', 'M'],
+            });
+            const grid = { x: 1, y: 1 };
+
+            rover.move(grid);
+
+            expect(rover.location.y).toEqual(grid.y);
+        });
+
+        it('should stop moving when reaching the edge of the plateau on x axis', () => {
+            const rover = initialiseRover({
+                location: {
+                    x: 0,
+                    y: 0,
+                    direction: 'E',
+                },
+                commands: ['M', 'M'],
+            });
+            const grid = { x: 1, y: 1 };
+
+            rover.move(grid);
+
+            expect(rover.location.x).toEqual(grid.x);
+        });
+
+        it('should stop moving when reaching the edge of the plateau on start of y axis', () => {
+            const rover = initialiseRover({
+                location: {
+                    x: 0,
+                    y: 0,
+                    direction: 'S',
+                },
+                commands: ['M'],
+            });
+
+            rover.move({ x: 1, y: 1 });
+
+            expect(rover.location.y).toEqual(0);
+        });
+
+        it('should stop moving when reaching the edge of the plateau on start of x axis', () => {
+            const rover = initialiseRover({
+                location: {
+                    x: 0,
+                    y: 0,
+                    direction: 'W',
+                },
+                commands: ['M'],
+            });
+
+            rover.move({ x: 1, y: 1 });
+
+            expect(rover.location.x).toEqual(0);
         });
     });
 });
