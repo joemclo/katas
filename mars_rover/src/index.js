@@ -14,6 +14,10 @@ const explorePlateau = (commandsString) => {
         .join('\n');
 };
 
+const isLocationOffGrid = (grid, newLocation) => {
+    return newLocation.y > grid.y || newLocation.x > grid.x || newLocation.y < 0 || newLocation.x < 0;
+};
+
 const initialiseRover = ({ location, commands }) => {
     let roverCommands = commands;
 
@@ -28,7 +32,7 @@ const initialiseRover = ({ location, commands }) => {
                 } else if (command === 'M') {
                     const newLocation = { ...this.location, ...moveRover(this.location) };
 
-                    if (newLocation.y > grid.y || newLocation.x > grid.x || newLocation.y < 0 || newLocation.x < 0) {
+                    if (isLocationOffGrid(grid, newLocation)) {
                         return;
                     }
 
