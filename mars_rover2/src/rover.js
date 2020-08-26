@@ -10,16 +10,16 @@ const directionAxisMap = {
     W: axisMove('x', -1),
 };
 
-const nextDirection = (left, right) => ({
+const rotationDirection = (left, right) => ({
     left,
     right,
 });
 
-const compassMap = {
-    E: nextDirection('N', 'S'),
-    N: nextDirection('W', 'E'),
-    S: nextDirection('E', 'W'),
-    W: nextDirection('S', 'N'),
+const rotationMap = {
+    E: rotationDirection('N', 'S'),
+    N: rotationDirection('W', 'E'),
+    S: rotationDirection('E', 'W'),
+    W: rotationDirection('S', 'N'),
 };
 
 const moveRover = (location, commands) => {
@@ -36,12 +36,12 @@ const moveRover = (location, commands) => {
         } else if (command === 'L') {
             return {
                 ...updatedLocation,
-                direction: compassMap[direction].left,
+                direction: rotationMap[direction].left,
             };
         } else if (command === 'R') {
             return {
                 ...updatedLocation,
-                direction: compassMap[direction].right,
+                direction: rotationMap[direction].right,
             };
         }
 
