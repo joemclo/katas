@@ -34,4 +34,41 @@ describe('rover', () => {
             expect(rover).toEqual({ x: startingX - xAxisSteps, y: 0, direction: 'W' });
         });
     });
+
+    describe('rover direction turning', () => {
+        const testStartingLocation = { x: 0, y: 0, direction: 'N' };
+
+        describe('rotation left', () => {
+            const commandTestRotation = [
+                ['W', ['L']],
+                ['S', ['L', 'L']],
+                ['E', ['L', 'L', 'L']],
+                ['N', ['L', 'L', 'L', 'L']],
+            ];
+
+            it.each(commandTestRotation)('should rotate the rover left from N to %s', (expectedDirection, commands) => {
+                const rover = moveRover({ ...testStartingLocation }, commands);
+
+                expect(rover).toEqual({ x: 0, y: 0, direction: expectedDirection });
+            });
+        });
+
+        describe('rotation right', () => {
+            const commandTestRotation = [
+                ['E', ['R']],
+                ['S', ['R', 'R']],
+                ['W', ['R', 'R', 'R']],
+                ['N', ['R', 'R', 'R', 'R']],
+            ];
+
+            it.each(commandTestRotation)(
+                'should rotate the rover right from N to %s',
+                (expectedDirection, commands) => {
+                    const rover = moveRover({ ...testStartingLocation }, commands);
+
+                    expect(rover).toEqual({ x: 0, y: 0, direction: expectedDirection });
+                }
+            );
+        });
+    });
 });
