@@ -39,4 +39,14 @@ const getRoverState = (roverStateString) => {
     };
 };
 
-export { commandParser, getGrid, getRoverLocation, getRoverCommands, getRoverState };
+const commandSplitter = (rawCommandString) => {
+    const splitMarker = rawCommandString.indexOf('\n');
+    const roversString = rawCommandString.substring(splitMarker + 1);
+
+    return {
+        gridString: rawCommandString.split('\n')[0],
+        roversString: [roversString],
+    };
+};
+
+export { commandParser, getGrid, getRoverLocation, getRoverCommands, getRoverState, commandSplitter };

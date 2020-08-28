@@ -1,4 +1,11 @@
-import { commandParser, getGrid, getRoverLocation, getRoverCommands, getRoverState } from '../commandParser';
+import {
+    commandParser,
+    getGrid,
+    getRoverLocation,
+    getRoverCommands,
+    getRoverState,
+    commandSplitter,
+} from '../commandParser';
 
 describe('command input parser', () => {
     describe('grid initial state', () => {
@@ -48,6 +55,18 @@ describe('command input parser', () => {
                 },
                 commands: ['M', 'M', 'L'],
             });
+        });
+    });
+
+    describe('command splitting ', () => {
+        it('should return grid part of command string', () => {
+            expect(commandSplitter('5 3\n1 2 N\nLMLMLM').gridString).toBe('5 3');
+
+            expect(commandSplitter('1 8\n1 2 N\nLMLMLM').gridString).toBe('1 8');
+        });
+
+        it('should return rovers unparsed state from command string', () => {
+            expect(commandSplitter('5 3\n1 2 N\nLMLMLM').roversString).toEqual(['1 2 N\nLMLMLM']);
         });
     });
 });
