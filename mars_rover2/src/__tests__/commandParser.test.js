@@ -65,8 +65,15 @@ describe('command input parser', () => {
             expect(commandSplitter('1 8\n1 2 N\nLMLMLM').gridString).toBe('1 8');
         });
 
-        it('should return rovers unparsed state from command string', () => {
+        it('should return rover unparsed state from command string', () => {
             expect(commandSplitter('5 3\n1 2 N\nLMLMLM').roversString).toEqual(['1 2 N\nLMLMLM']);
+        });
+
+        it('should return multiple rovers unparsed state from command string', () => {
+            expect(commandSplitter('5 3\n1 2 N\nLMLMLM\n3 5 E\nRRMMMLM').roversString).toEqual([
+                '1 2 N\nLMLMLM',
+                '3 5 E\nRRMMMLM',
+            ]);
         });
     });
 });

@@ -41,11 +41,11 @@ const getRoverState = (roverStateString) => {
 
 const commandSplitter = (rawCommandString) => {
     const splitMarker = rawCommandString.indexOf('\n');
-    const roversString = rawCommandString.substring(splitMarker + 1);
+    const roversString = rawCommandString.substring(splitMarker + 1).match(/[^\n]+\n[^\n]+/g);
 
     return {
         gridString: rawCommandString.split('\n')[0],
-        roversString: [roversString],
+        roversString,
     };
 };
 
