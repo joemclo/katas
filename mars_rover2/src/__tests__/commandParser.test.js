@@ -1,10 +1,10 @@
 import {
-    commandParser,
     getGrid,
     getRoverLocation,
     getRoverCommands,
     getRoverState,
     commandSplitter,
+    getInitialState,
 } from '../commandParser';
 
 describe('command input parser', () => {
@@ -74,6 +74,35 @@ describe('command input parser', () => {
                 '1 2 N\nLMLMLM',
                 '3 5 E\nRRMMMLM',
             ]);
+        });
+    });
+
+    describe('mars rover explors initial state setup', () => {
+        it('should parse input string into rover and grid state', () => {
+            expect(getInitialState('5 3\n1 2 N\nLMLMLM\n3 5 E\nRRMMMLM')).toEqual({
+                grid: {
+                    x: 5,
+                    y: 3,
+                },
+                rovers: [
+                    {
+                        location: {
+                            x: 1,
+                            y: 2,
+                            direction: 'N',
+                        },
+                        commands: ['L', 'M', 'L', 'M', 'L', 'M'],
+                    },
+                    {
+                        location: {
+                            x: 3,
+                            y: 5,
+                            direction: 'E',
+                        },
+                        commands: ['R', 'R', 'M', 'M', 'M', 'L', 'M'],
+                    },
+                ],
+            });
         });
     });
 });

@@ -1,9 +1,3 @@
-const commandParser = (commandString) => {
-    return {
-        grid: getGrid(commandString),
-    };
-};
-
 const getVector = (string) => {
     const [x, y, direction] = string.split(' ');
 
@@ -49,4 +43,15 @@ const commandSplitter = (rawCommandString) => {
     };
 };
 
-export { commandParser, getGrid, getRoverLocation, getRoverCommands, getRoverState, commandSplitter };
+const getInitialState = (input) => {
+    const { gridString, roversString } = commandSplitter(input);
+
+    return {
+        grid: getGrid(gridString),
+        rovers: roversString.map((roverString) => {
+            return getRoverState(roverString);
+        }),
+    };
+};
+
+export { getInitialState, getGrid, getRoverLocation, getRoverCommands, getRoverState, commandSplitter };
