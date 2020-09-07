@@ -1,4 +1,4 @@
-import { moveRover } from '../rover';
+import { moveRover, isRoverOnGrid } from '../rover';
 
 describe('rover', () => {
     describe('rover movement ', () => {
@@ -69,6 +69,29 @@ describe('rover', () => {
                     expect(rover).toEqual({ x: 0, y: 0, direction: expectedDirection });
                 }
             );
+        });
+    });
+
+    describe('Checking rover location on the grid', () => {
+        it.each([
+            ['passed right', 6, 4, false],
+            ['passed left', -1, 4, false],
+            ['passed top', 4, 6, false],
+            ['passed bottom', 4, -1, false],
+            ['in middle', 3, 3, true],
+            ['top left', 0, 5, true],
+            ['top right', 5, 5, true],
+            ['bottom left', 0, 0, true],
+            ['bottom right', 5, 0, true],
+        ])('should detect rover is %s edge of grid', (_, x, y, expectedOnGrid) => {
+            const roverLocation = { x, y };
+
+            const grid = {
+                x: 5,
+                y: 5,
+            };
+
+            expect(isRoverOnGrid(roverLocation, grid)).toBe(expectedOnGrid);
         });
     });
 });

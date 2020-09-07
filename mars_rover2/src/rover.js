@@ -49,4 +49,12 @@ const moveRover = (location, commands) => {
     }, location);
 };
 
-export { moveRover };
+const isRoverOnGrid = (roverLocation, grid) => {
+    if (roverLocation.x > grid.x || roverLocation.x < 0 || roverLocation.y < 0 || roverLocation.y > grid.y) {
+        return false;
+    }
+
+    return true;
+};
+
+export { moveRover, isRoverOnGrid };
