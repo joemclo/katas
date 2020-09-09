@@ -1,6 +1,11 @@
 import { moveRover, isRoverOnGrid } from '../rover';
 
 describe('rover', () => {
+    const testGrid = {
+        x: 5,
+        y: 5,
+    };
+
     describe('rover movement ', () => {
         const commandTestDate = [
             [1, ['M']],
@@ -9,29 +14,35 @@ describe('rover', () => {
         ];
 
         it.each(commandTestDate)('should move rover %s steps in y axis', (expectedY, commands) => {
-            const rover = moveRover({ x: 0, y: 0, direction: 'N' }, commands);
+            const rover = moveRover({ x: 0, y: 0, direction: 'N' }, commands, testGrid);
 
             expect(rover).toEqual({ x: 0, y: expectedY, direction: 'N' });
         });
 
         it.each(commandTestDate)('should move rover minus %s steps in y axis', (yAxisSteps, commands) => {
             const startingY = 5;
-            const rover = moveRover({ x: 0, y: startingY, direction: 'S' }, commands);
+            const rover = moveRover({ x: 0, y: startingY, direction: 'S' }, commands, testGrid);
 
             expect(rover).toEqual({ x: 0, y: startingY - yAxisSteps, direction: 'S' });
         });
 
         it.each(commandTestDate)('should move rover %s steps in x axis', (expectedX, commands) => {
-            const rover = moveRover({ x: 0, y: 0, direction: 'E' }, commands);
+            const rover = moveRover({ x: 0, y: 0, direction: 'E' }, commands, testGrid);
 
             expect(rover).toEqual({ x: expectedX, y: 0, direction: 'E' });
         });
 
         it.each(commandTestDate)('should move rover minus %s steps in x axis', (xAxisSteps, commands) => {
             const startingX = 5;
-            const rover = moveRover({ x: startingX, y: 0, direction: 'W' }, commands);
+            const rover = moveRover({ x: startingX, y: 0, direction: 'W' }, commands, testGrid);
 
             expect(rover).toEqual({ x: startingX - xAxisSteps, y: 0, direction: 'W' });
+        });
+
+        it('should stop rover when it tries to move outside of the grid', () => {
+            const rover = moveRover({ x: 5, y: 5, direction: 'N' }, ['M', 'R', 'R', 'M'], testGrid);
+
+            expect(rover).toEqual({ x: 5, y: 5, direction: 'N' });
         });
     });
 
@@ -47,7 +58,7 @@ describe('rover', () => {
             ];
 
             it.each(commandTestRotation)('should rotate the rover left from N to %s', (expectedDirection, commands) => {
-                const rover = moveRover({ ...testStartingLocation }, commands);
+                const rover = moveRover({ ...testStartingLocation }, commands, testGrid);
 
                 expect(rover).toEqual({ x: 0, y: 0, direction: expectedDirection });
             });
@@ -64,7 +75,7 @@ describe('rover', () => {
             it.each(commandTestRotation)(
                 'should rotate the rover right from N to %s',
                 (expectedDirection, commands) => {
-                    const rover = moveRover({ ...testStartingLocation }, commands);
+                    const rover = moveRover({ ...testStartingLocation }, commands, testGrid);
 
                     expect(rover).toEqual({ x: 0, y: 0, direction: expectedDirection });
                 }

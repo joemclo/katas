@@ -77,7 +77,7 @@ describe('command input parser', () => {
         });
     });
 
-    describe('mars rover explors initial state setup', () => {
+    describe('mars rover explores initial state setup', () => {
         it('should parse input string into rover and grid state', () => {
             expect(getInitialState('5 3\n1 2 N\nLMLMLM\n3 5 E\nRRMMMLM')).toEqual({
                 grid: {

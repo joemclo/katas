@@ -22,30 +22,37 @@ const rotationMap = {
     W: rotationDirection('S', 'N'),
 };
 
-const moveRover = (location, commands) => {
-    return commands.reduce((updatedLocation, command) => {
-        const direction = updatedLocation.direction;
+const moveRover = (location, commands, grid) => {
+    return commands.reduce((location, command, _, arr) => {
+        const direction = location.direction;
+
+        let updatedLocation;
 
         if (command === 'M') {
             const { axis, moveCount } = directionAxisMap[direction];
 
-            return {
-                ...updatedLocation,
-                [axis]: updatedLocation[axis] + moveCount,
+            updatedLocation = {
+                ...location,
+                [axis]: location[axis] + moveCount,
             };
         } else if (command === 'L') {
-            return {
-                ...updatedLocation,
+            updatedLocation = {
+                ...location,
                 direction: rotationMap[direction].left,
             };
         } else if (command === 'R') {
-            return {
-                ...updatedLocation,
+            updatedLocation = {
+                ...location,
                 direction: rotationMap[direction].right,
             };
         }
 
-        throw new Error('unknown command');
+        if (isRoverOnGrid(updatedLocation, grid)) {
+            return updatedLocation;
+        } else {
+            arr.splice(1); // escape early as we have hit edge of grid
+            return location;
+        }
     }, location);
 };
 
