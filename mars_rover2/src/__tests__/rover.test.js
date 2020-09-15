@@ -1,3 +1,4 @@
+import { stringifyRoversState } from '../commandParser';
 import { moveRover, isRoverOnGrid } from '../rover';
 
 describe('rover', () => {
@@ -104,5 +105,30 @@ describe('rover', () => {
 
             expect(isRoverOnGrid(roverLocation, grid)).toBe(expectedOnGrid);
         });
+    });
+});
+
+describe('stringify rover positions', () => {
+    it('should output location of rovers from state', () => {
+        expect(
+            stringifyRoversState({
+                rovers: [
+                    {
+                        location: {
+                            x: 1,
+                            y: 2,
+                            direction: 'N',
+                        },
+                    },
+                    {
+                        location: {
+                            x: 3,
+                            y: 5,
+                            direction: 'E',
+                        },
+                    },
+                ],
+            })
+        ).toBe('1 2 N\n3 5 E');
     });
 });

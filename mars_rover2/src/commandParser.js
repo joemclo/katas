@@ -54,4 +54,22 @@ const getInitialState = (input) => {
     };
 };
 
-export { getInitialState, getGrid, getRoverLocation, getRoverCommands, getRoverState, commandSplitter };
+const stringifyRoversState = ({ rovers }) => {
+    return rovers.reduce((roversString, rover) => {
+        if (roversString) {
+            roversString += '\n';
+        }
+
+        return `${roversString}${rover.location.x} ${rover.location.y} ${rover.location.direction}`;
+    }, '');
+};
+
+export {
+    getInitialState,
+    getGrid,
+    getRoverLocation,
+    getRoverCommands,
+    getRoverState,
+    commandSplitter,
+    stringifyRoversState,
+};
